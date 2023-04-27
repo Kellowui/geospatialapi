@@ -15,6 +15,7 @@
  */
 package com.google.ar.core.codelabs.hellogeospatial.helpers
 
+import android.annotation.SuppressLint
 import android.opengl.GLSurfaceView
 import android.view.View
 import android.widget.TextView
@@ -52,7 +53,7 @@ class HelloGeoView(val activity: HelloGeoActivity) : DefaultLifecycleObserver {
     }
 
   val statusText = root.findViewById<TextView>(R.id.statusText)
-  fun updateStatusText(earth: Earth, cameraGeospatialPose: GeospatialPose?) {
+  fun updateStatusText(earth: Earth, cameraGeospatialPose: GeospatialPose?, dist: Double?) {
     activity.runOnUiThread {
       val poseText = if (cameraGeospatialPose == null) "" else
         activity.getString(R.string.geospatial_pose,
@@ -62,11 +63,15 @@ class HelloGeoView(val activity: HelloGeoActivity) : DefaultLifecycleObserver {
                            cameraGeospatialPose.altitude,
                            cameraGeospatialPose.verticalAccuracy,
                            cameraGeospatialPose.heading,
-                           cameraGeospatialPose.headingAccuracy)
+                           cameraGeospatialPose.headingAccuracy,
+        )
+        val distanceCalc = activity.getString(R.string.CalcDistance,dist)
       statusText.text = activity.resources.getString(R.string.earth_state,
                                                      earth.earthState.toString(),
                                                      earth.trackingState.toString(),
-                                                     poseText)
+                                                     poseText,
+                                                     distanceCalc)
+
     }
   }
 
